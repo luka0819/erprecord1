@@ -21,4 +21,7 @@ interface ButtonDao {
     @Query("DELETE FROM BUTTONS WHERE uid = :uid")
     fun deleteButton(uid: Long)
 
+    @Query("UPDATE Buttons SET first_name=:newName WHERE first_name = :oldName")
+    fun update(oldName: String, newName: String)
+
 }

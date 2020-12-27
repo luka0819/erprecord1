@@ -9,6 +9,7 @@ import com.example.erprecord.R
 import com.example.erprecord.config.App
 import com.example.erprecord.entities.Buttons
 import com.example.erprecord.entities.Statistic
+import com.example.erprecord.utils.ItemClickCallback
 import com.example.erprecord.utils.inflate
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,56 +19,75 @@ import kotlin.collections.ArrayList
 * Created by ნიკოლოზ კაციტაძე on 12/26/20
 */
 
-class ButtonsAdapter(private val buttonsList: ArrayList<Buttons>) :
+class ButtonsAdapter(private val buttonsList: ArrayList<Buttons>, var isUpdate: Boolean = false) :
     RecyclerView.Adapter<ButtonsAdapter.ButtonsViewHolder>() {
+
+    companion object {
+
+        var itemClickCallback: ItemClickCallback? = null
+
+    }
 
     class ButtonsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private lateinit var button: Button
 
-        fun bindButton(buttons: Buttons) {
+        fun bindButton(buttons: Buttons, isUpdate: Boolean) {
 
             this.button = itemView.findViewById(R.id.a)
 
             this.button.text = buttons.buttonName
 
-            button.setOnClickListener {
+            if (!isUpdate) {
+                button.setOnClickListener {
 
-                val builder = AlertDialog.Builder(itemView.context)
-                //set title for alert dialog
-                builder.setTitle(R.string.dialogTitle)
-                //set message for alert dialog
-                builder.setMessage(R.string.dialogMessage)
+                    val builder = AlertDialog.Builder(itemView.context)
+                    //set title for alert dialog
+                    builder.setTitle(R.string.dialogTitle)
+                    //set message for alert dialog
+                    builder.setMessage(R.string.dialogMessage)
 
 
-                //performing positive action
-                builder.setPositiveButton("Yes") { dialogInterface, which ->
+                    //performing positive action
+                    builder.setPositiveButton("Yes") { dialogInterface, which ->
 
-                    val sdf1 = SimpleDateFormat("dd/M/yyyy")
-                    val currentDate = sdf1.format(Date())
-                    val sdf2 = SimpleDateFormat("hh:mm")
-                    val currentTime = sdf2.format(Date())
+                        val sdf1 = SimpleDateFormat("dd/M/yyyy")
+                        val currentDate = sdf1.format(Date())
+                        val sdf2 = SimpleDateFormat("hh:mm")
+                        val currentTime = sdf2.format(Date())
 
-                    val bName = this.button.text.toString()
+                        val bName = this.button.text.toString()
 
-                    App.instance.db.statisticDao()
-                        .insertAll(Statistic(name = bName, date = currentDate, time = currentTime))
+                        App.instance.db.statisticDao()
+                            .insertAll(
+                                Statistic(
+                                    name = bName,
+                                    date = currentDate,
+                                    time = currentTime
+                                )
+                            )
 
-                    dialogInterface.dismiss()
+                        dialogInterface.dismiss()
+                    }
+
+                    //performing negative action
+                    builder.setNegativeButton("No") { dialogInterface, which ->
+                        dialogInterface.dismiss()
+                    }
+                    // Create the AlertDialog
+                    val alertDialog: AlertDialog = builder.create()
+                    // Set other dialog properties
+                    alertDialog.setCancelable(false)
+                    alertDialog.show()
+                    alertDialog.setCanceledOnTouchOutside(false)
+
                 }
-
-                //performing negative action
-                builder.setNegativeButton("No") { dialogInterface, which ->
-                    dialogInterface.dismiss()
+            } else {
+                button.setOnClickListener {
+                    itemClickCallback?.onClick(buttons)
                 }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(false)
-                alertDialog.show()
-                alertDialog.setCanceledOnTouchOutside(false)
-
             }
+
         }
 
     }
@@ -77,7 +97,7 @@ class ButtonsAdapter(private val buttonsList: ArrayList<Buttons>) :
     }
 
     override fun onBindViewHolder(holder: ButtonsViewHolder, position: Int) {
-        holder.bindButton(buttonsList[position])
+        holder.bindButton(buttonsList[position], isUpdate)
     }
 
     override fun getItemCount(): Int = buttonsList.size

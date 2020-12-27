@@ -17,32 +17,22 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/addchoice"
+            android:id="@+id/updateButtonText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="270dp"
-            android:hint="Add your choice"
+            android:hint="New name"
             android:textSize="35dp" />
 
         <Button
-            android:id="@+id/add"
+            android:id="@+id/updateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/buttonshape"
-            android:text="Add"
+            android:text="Update"
             android:textColor="@color/white"
             android:textSize="30dp" />
-
-        <TextView
-            android:id="@+id/gotoUpdateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Go To Update Buttons"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
 
     </LinearLayout>
 

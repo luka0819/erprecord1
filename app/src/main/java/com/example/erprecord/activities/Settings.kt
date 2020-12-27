@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.erprecord.R
 import com.example.erprecord.config.App
@@ -14,6 +15,7 @@ class settings : AppCompatActivity() {
 
     private lateinit var addchoice: EditText
     private lateinit var add: Button
+    private lateinit var gotoUpdateTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,12 @@ class settings : AppCompatActivity() {
         val buttonDao = App.instance.db.buttonDao()
 
         addchoice = findViewById(R.id.addchoice)
+        gotoUpdateTextView = findViewById(R.id.gotoUpdateTextView)
         add = findViewById(R.id.add)
+
+        gotoUpdateTextView.setOnClickListener {
+            startActivity(Intent(this, UpdateActivity::class.java))
+        }
 
         add.setOnClickListener {
 

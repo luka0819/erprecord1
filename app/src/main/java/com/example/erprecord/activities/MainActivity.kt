@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var buttonsRecyclerView: RecyclerView
 
+    private lateinit var statisticImageButton: ImageButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         setting = findViewById(R.id.setting)
         buttonsRecyclerView = findViewById(R.id.buttonsList)
+        statisticImageButton = findViewById(R.id.imageButton)
+
+        statisticImageButton.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
+        }
 
         initView()
 
@@ -39,31 +46,6 @@ class MainActivity : AppCompatActivity() {
         val all = App.instance.db.buttonDao().getAll()
         buttonsAdapter.updateButtons(all)
 
-//        buttona.setOnClickListener {
-//
-//            val builder = AlertDialog.Builder(this)
-//            //set title for alert dialog
-//            builder.setTitle(R.string.dialogTitle)
-//            //set message for alert dialog
-//            builder.setMessage(R.string.dialogMessage)
-//
-//
-//            //performing positive action
-//            builder.setPositiveButton("Yes") { dialogInterface, which ->
-//                Toast.makeText(applicationContext, "clicked yes", Toast.LENGTH_LONG).show()
-//            }
-//
-//            //performing negative action
-//            builder.setNegativeButton("No") { dialogInterface, which ->
-//                Toast.makeText(applicationContext, "clicked No", Toast.LENGTH_LONG).show()
-//            }
-//            // Create the AlertDialog
-//            val alertDialog: AlertDialog = builder.create()
-//            // Set other dialog properties
-//            alertDialog.setCancelable(false)
-//            alertDialog.show()
-//
-//        }
 
 
     }

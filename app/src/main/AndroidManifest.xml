@@ -10,7 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ERPRECORD">
-        <activity android:name=".activities.settings"></activity>
+        <activity android:name=".activities.SetTextActivity"></activity>
+        <activity android:name=".activities.UpdateActivity" />
+        <activity android:name=".activities.StatisticsActivity" />
+        <activity android:name=".activities.settings" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
